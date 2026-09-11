@@ -14,12 +14,9 @@ class LlmClient:
             api_key=config.llm_api_key,
         )
 
-    async def ask(self, user_text: str) -> str:
+    async def ask(self, history: list[dict[str, str]]) -> str:
         response = await self._client.chat.completions.create(
             model=self._model,
-            messages=[
-                {"role": "system", "content": self._system_prompt},
-                {"role": "user", "content": user_text},
-            ],
+            messages=[{"role": "system", "content": self._system_prompt}, *history],
         )
         return response.choices[0].message.content or ""

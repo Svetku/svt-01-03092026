@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher
 
 from bot.config import Config
+from bot.dialog_memory import DialogMemory
 from bot.llm_client import LlmClient
 from bot.message_handler import MessageHandler
 
@@ -15,7 +16,7 @@ async def main() -> None:
     config = Config()
     bot = Bot(token=config.telegram_bot_token)
     dp = Dispatcher()
-    dp.include_router(MessageHandler(LlmClient(config)).router)
+    dp.include_router(MessageHandler(LlmClient(config), DialogMemory()).router)
     logger.info("Бот запущен")
     await dp.start_polling(bot)
 
