@@ -1,0 +1,31 @@
+---
+description: Соглашения разработки этого Telegram-ассистента
+alwaysApply: true
+---
+
+# Соглашения разработки
+
+Источник правды по проекту: @docs/idea.md и @docs/vision.md.
+Решения: @docs/adr/001-aiogram-polling.md, @docs/adr/002-docker.md.
+
+Ссылки на файлы пиши через `@`.
+
+## Этот проект
+
+LLM-ассистент в Telegram: одна роль из @prompts/system.txt, диалог текстом, команды только `/start` и `/reset`.
+
+Код только в `src/bot/`: @src/bot/main.py, @src/bot/config.py, @src/bot/message_handler.py, @src/bot/llm_client.py, @src/bot/dialog_memory.py.
+
+Стек: Python 3.12, `uv`, `aiogram` + long polling, клиент `openai`, `make`, Docker. Запуск: `make run` или `make docker-run`.
+
+## Как писать код
+
+- KISS и СРП: один класс — один файл. Не добавляй слои, интерфейсы и сущности «на вырост».
+- Настройки только из `.env`, класс в @src/bot/config.py. Секреты не в коде и не в git.
+- К модели ходи только из @src/bot/llm_client.py. Провайдер — три переменные: `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`. Без `if` по имени провайдера.
+- История — память процесса в @src/bot/dialog_memory.py, ключ `chat_id`, не больше 20 реплик. Базы нет.
+- Команды и текст обрабатывает @src/bot/message_handler.py. Меню и кнопок нет.
+- Логи: стандартный `logging`, только stdout. Пиши старт, `/start`, `/reset`, нетекст (`chat_id` + тип), ошибки LLM. Не пиши токены, ключи и текст переписки.
+- Не комментируй то, что уже ясно из кода.
+
+Не делай: webhook, БД, очередь, кэш, стриминг, инструменты модели, несколько ролей, тесты и CI на этом этапе.
