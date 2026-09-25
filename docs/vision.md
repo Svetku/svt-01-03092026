@@ -8,9 +8,9 @@
 |---|---|
 | Язык | Python 3.12 |
 | Зависимости | `uv` + `pyproject.toml` |
-| Telegram | `aiogram`, long polling ([ADR 001](adr/001-aiogram-polling.md)) |
+| Telegram | `aiogram`, long polling (ADR 001: @docs/adr/001-aiogram-polling.md) |
 | LLM | официальный клиент `openai`; провайдер переключается через `.env` (`LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`) |
-| Сборка и запуск | `make` (`make install`, `make run`) и Docker ([ADR 002](adr/002-docker.md)) |
+| Сборка и запуск | `make` (`make install`, `make run`) и Docker (ADR 002: @docs/adr/002-docker.md) | 
 
 На старте нет webhook, базы, очереди, кэша и фреймворков агентов.
 
@@ -169,4 +169,4 @@ message_handler   — принял текст, собрал ответ, отпр
 - без Docker — `make install` (`uv sync`);
 - с Docker — `make docker-build` (один образ).
 
-Один `Dockerfile`, один процесс с long polling. Нет CI, облака и оркестрации: деплой — собрать образ и запустить контейнер там, где есть Docker. См. [ADR 002](adr/002-docker.md).
+Один `Dockerfile`, один процесс с long polling. Нет CI, облака и оркестрации: деплой — собрать образ и запустить контейнер там, где есть Docker. См. ADR 002: @docs/adr/002-docker.md.

@@ -2,7 +2,6 @@
 description: Соглашения разработки этого Telegram-ассистента
 alwaysApply: true
 ---
-
 # Соглашения разработки
 
 Источник правды по проекту: @docs/idea.md и @docs/vision.md.
