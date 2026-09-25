@@ -18,6 +18,7 @@ class MessageHandler:
         self.router.message.register(self.on_start, CommandStart())
         self.router.message.register(self.on_reset, Command("reset"))
         self.router.message.register(self.on_text, F.text)
+        self.router.message.register(self.on_non_text)
 
     async def on_start(self, message: Message) -> None:
         logger.info("/start chat_id=%s", message.chat.id)
@@ -39,3 +40,6 @@ class MessageHandler:
             return
         self._memory.add(chat_id, "assistant", reply)
         await message.answer(reply)
+
+    async def on_non_text(self, message: Message) -> None:
+        logger.info("non-text chat_id=%s content_type=%s", message.chat.id, message.content_type)
